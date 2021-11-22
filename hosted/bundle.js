@@ -57,7 +57,7 @@ var DomoForm = function DomoForm(props) {
     id: "domoLevel",
     type: "text",
     name: "level",
-    placeholder: "Domo Level (>0)"
+    placeholder: "Domo Level"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
