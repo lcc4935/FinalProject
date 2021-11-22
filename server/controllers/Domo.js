@@ -11,6 +11,7 @@ const makerPage = (req, res) => {
     return res.render('app', { csrfToken: req.csrfToken(), domos: docs });
   });
 };
+//hello
 
 const makeDomo = (req, res) => {
   if (!req.body.name || !req.body.age || !req.body.level) {

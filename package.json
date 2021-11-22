@@ -54,10 +54,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lcc4935/DomoMaker-D-Start.git"
+    "url": "git+https://github.com/lcc4935/FinalProject.git"
   },
   "bugs": {
-    "url": "https://github.com/lcc4935/DomoMaker-D-Start/issues"
+    "url": "https://github.com/lcc4935/FinalProject/issues"
   },
-  "homepage": "https://github.com/lcc4935/DomoMaker-D-Start#readme"
+  "homepage": "https://github.com/lcc4935/FinalProject#readme"
 }
