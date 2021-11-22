@@ -13,13 +13,14 @@ const makerPage = (req, res) => {
 };
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both name and age are required' });
+  if (!req.body.name || !req.body.age || !req.body.level) {
+    return res.status(400).json({ error: 'RAWR! Name, age, and level are required' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    level: req.body.level,
     owner: req.session.account._id,
   };
 
@@ -53,6 +54,27 @@ const getDomos = (request, response) => {
   });
 };
 
+const deleteDomo = (request, response) => {
+  const req = request;
+  const res = response;
+  if (!req.body.name) {
+    return res.status(400).json({ error: 'RAWR! Name is required' });
+  }
+
+  return Domo.DomoModel.delete(req.body.name, (err, docs) => {
+    console.dir(docs);
+    if (docs.deletedCount === 0) { // Check if anything was actually deleted.
+      // I.E, did the Domo exist?
+      return res.status(400).json({ error: 'RAWR! Domo does not exist!' });
+    }
+    if (err) {
+      return res.status(400).json({ error: 'An Error occured' });
+    }
+    return res.json({ domos: docs });
+  });
+};
+
 module.exports.makerPage = makerPage;
 module.exports.getDomos = getDomos;
 module.exports.make = makeDomo;
+module.exports.delete = deleteDomo;

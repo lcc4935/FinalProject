@@ -17,7 +17,19 @@ var handleDomo = function handleDomo(e) {
   return false;
 };
 
+var deleteDomo = function deleteDomo(e) {
+  e.preventDefault();
+  $("#domoMessage").animate({
+    width: 'hide'
+  }, 350);
+  sendAjax('DELETE', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), function () {
+    loadDomosFromServer();
+  });
+  return false;
+};
+
 var DomoForm = function DomoForm(props) {
+  console.log(props);
   return /*#__PURE__*/React.createElement("form", {
     id: "domoForm",
     onSubmit: handleDomo,
@@ -39,6 +51,13 @@ var DomoForm = function DomoForm(props) {
     type: "text",
     name: "age",
     placeholder: "Domo Age"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "level"
+  }, "Level: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoLevel",
+    type: "text",
+    name: "level",
+    placeholder: "Domo Level (>0)"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -47,6 +66,32 @@ var DomoForm = function DomoForm(props) {
     className: "makeDomoSubmit",
     type: "submit",
     value: "Make Domo"
+  }));
+};
+
+var DeleteForm = function DeleteForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "deleteForm",
+    onSubmit: deleteDomo,
+    name: "deleteForm",
+    action: "/delete",
+    method: "DELETE",
+    className: "deleteForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "name"
+  }, "Name: "), /*#__PURE__*/React.createElement("input", {
+    id: "domoName",
+    type: "text",
+    name: "name",
+    placeholder: "Domo Name"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "deleteSubmit",
+    type: "submit",
+    value: "Delete Domo"
   }));
 };
 
@@ -71,7 +116,9 @@ var DomoList = function DomoList(props) {
       className: "domoName"
     }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
       className: "domoAge"
-    }, " Age: ", domo.age, " "));
+    }, " Age: ", domo.age, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "domoLevel"
+    }, "Level: ", domo.level));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "domoList"
@@ -90,6 +137,9 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
     csrf: csrf
   }), document.querySelector("#makeDomo"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
+    csrf: csrf
+  }), document.querySelector("#deleteDomo"));
   ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
     domos: []
   }), document.querySelector("#domos"));
