@@ -78,10 +78,6 @@ const DomoList = function(props) {
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
                 <h3 className="domoName"> Name: {domo.name} </h3>
 
-                {/*I do not know how to make this work because it is not a form like all of the examples 
-                <input type="button" value="Delete" className="domoButton"  onClick={deleteDomo}/>
-                <input type="hidden" name="_csrf" value={props.csrf} /> */}
-
                 <h3 className="domoAge"> Age: {domo.age} </h3>
 
                 <h3 className="domoLevel">Level: {domo.level}</h3>
