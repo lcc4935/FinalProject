@@ -3,7 +3,7 @@
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
   $("#domoMessage").animate({
-    width: 'hide'
+    width: "hide"
   }, 350);
 
   if ($("user").val() == '' || $("#pass").val() == '') {
@@ -11,24 +11,24 @@ var handleLogin = function handleLogin(e) {
     return false;
   }
 
-  console.log($("input[name=_csrf]").val());
-  sendAjax('POST', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
+  console.log($("input[name=_csrf").val());
+  sendAjax('Post', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
 };
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
   $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
+    width: "hide"
+  }, 350); //console.log($("#pass2").val());
 
   if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
-    handleErrorError("RAWR! All fields are required");
+    handleError("RAWR! All fields are required!");
     return false;
   }
 
   if ($("#pass").val() !== $("#pass2").val()) {
-    handleErrorError("RAWR! Passwords do not match");
+    handleError("RAWR! Passwords do not match!");
     return false;
   }
 
@@ -63,7 +63,7 @@ var LoginWindow = function LoginWindow(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "forSubmit",
+    className: "formSubmit",
     type: "submit",
     value: "Sign in"
   }));
@@ -126,7 +126,7 @@ var setup = function setup(csrf) {
   var signupButton = document.querySelector("#signupButton");
   signupButton.addEventListener("click", function (e) {
     e.preventDefault();
-    createLoginWindow(csrf);
+    createSignupWindow(csrf);
     return false;
   });
   loginButton.addEventListener("click", function (e) {
