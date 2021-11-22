@@ -63,8 +63,7 @@ const deleteDomo = (request, response) => {
 
   return Domo.DomoModel.delete(req.body.name, (err, docs) => {
     console.dir(docs);
-    if (docs.deletedCount === 0) { // Check if anything was actually deleted.
-      // I.E, did the Domo exist?
+    if (docs.deletedCount === 0) {
       return res.status(400).json({ error: 'RAWR! Domo does not exist!' });
     }
     if (err) {

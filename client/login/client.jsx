@@ -18,7 +18,6 @@ const handleSignup = (e) => {
     e.preventDefault();
 
     $("#domoMessage").animate({ width: "hide" }, 350);
-    //console.log($("#pass2").val());
     if ($("#user").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
         handleError("RAWR! All fields are required!");
         return false;
