@@ -1,10 +1,20 @@
+/*
+Color Scheme:
+
+27187E
+758BFD
+AEB8FE
+F1F2F6
+FF8600
+*/
+
 const handleCourse = (e) => {
     e.preventDefault();
 
     $("#courseMessage").animate({ width: 'hide' }, 350);
 
-    if ($("courseName").val() == '' || $("#courseAge").val() == '') {
-        handleError("RAWR! All fields are required!");
+    if ($("courseName").val() == '' || $("#courseNumber").val() == '') {
+        handleError("All fields are required");
         return false;
     }
 
@@ -32,13 +42,22 @@ const CourseForm = (props) => {
     return (
         <form id="courseForm" onSubmit={handleCourse} name="courseForm" action="/maker" method="POST" className="courseForm">
             <label htmlFor="name">Name: </label>
-            <input id="courseName" type="text" name="name" placeholder="Course Name"/>
+            <input id="courseName" type="text" name="name" placeholder="Rich Media Web App Dev II"/>
 
-            <label htmlFor="age">Age: </label>
-            <input id="courseAge" type="text" name="age" placeholder="Course Age"/>
+            <label htmlFor="department">Department: </label>
+            <input id="courseDepartment" type="text" name="department" placeholder="IGME"/>
 
-            <label htmlFor="level">Level: </label>
-            <input id="courseLevel" type="text" name="level" placeholder="Course Level" />
+            <label htmlFor="number">Number: </label>
+            <input id="courseNumber" type="text" name="number" placeholder="430"/>
+
+            <label htmlFor="credit">Credit: </label>
+            <input id="courseCredit" type="text" name="credit" placeholder="3" />
+
+            <label htmlFor="days">Days: </label>
+            <input id="courseDays" type="text" name="days" placeholder="MWF" />
+
+            <label htmlFor="times">Times: </label>
+            <input id="courseTimes" type="text" name="times" placeholder="1:25-2:15" />
 
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="makeCourseSubmit" type="submit" value="Make Course"/>
@@ -63,6 +82,21 @@ const DeleteForm = (props) => {
     );
 };
 
+const UpgradeForm = (props) => {
+    return (
+        <form id="upgradeForm"
+            onSubmit={upgradeCourse}
+            name="upgradeForm"
+            action="/upgrade"
+            method="UPGRADE"
+            className="upgradeForm"
+        >
+            <input type="hidden" name="_csrf" value={props.csrf} />
+            <input className="upgradeSubmit" type="submit" value="Upgrade to add more courses" />
+        </form>
+    );
+};
+
 const CourseList = function(props) {
     if(props.courses.length === 0) {
         return (
@@ -76,11 +110,11 @@ const CourseList = function(props) {
         return (
             <div key={course._id} className="course">
                 <img src="/assets/img/courseface.png" alt="course face" className="courseFace"/>
-                <h3 className="courseName"> Name: {course.name} </h3>
+                <h3 className="courseName" className="courseCredit"> {course.name}, {course.credit} credits</h3>
 
-                <h3 className="courseAge"> Age: {course.age} </h3>
+                <h3 className="courseNumber" className="courseDepartment"> {course.department} {course.number} </h3>
 
-                <h3 className="courseLevel">Level: {course.level}</h3>
+                <h3 className="courseDays" className="courseTimes">{course.days} {course.times}</h3>
             </div>
         );
     });
@@ -103,6 +137,10 @@ const loadCoursesFromServer = () => {
 const setup = function(csrf) {
     ReactDOM.render(
         <CourseForm csrf={csrf} />, document.querySelector("#makeCourse")
+    );
+
+    ReactDOM.render(
+        <UpgradeForm csrf={csrf} />, document.querySelector("#upgradeCourse")
     );
 
     ReactDOM.render(

@@ -1,13 +1,24 @@
 "use strict";
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*
+Color Scheme:
+
+27187E
+758BFD
+AEB8FE
+F1F2F6
+FF8600
+*/
 var handleCourse = function handleCourse(e) {
   e.preventDefault();
   $("#courseMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("courseName").val() == '' || $("#courseAge").val() == '') {
-    handleError("RAWR! All fields are required!");
+  if ($("courseName").val() == '' || $("#courseNumber").val() == '') {
+    handleError("All fields are required");
     return false;
   }
 
@@ -43,21 +54,42 @@ var CourseForm = function CourseForm(props) {
     id: "courseName",
     type: "text",
     name: "name",
-    placeholder: "Course Name"
+    placeholder: "Rich Media Web App Dev II"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "age"
-  }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "courseAge",
+    htmlFor: "department"
+  }, "Department: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseDepartment",
     type: "text",
-    name: "age",
-    placeholder: "Course Age"
+    name: "department",
+    placeholder: "IGME"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "level"
-  }, "Level: "), /*#__PURE__*/React.createElement("input", {
-    id: "courseLevel",
+    htmlFor: "number"
+  }, "Number: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseNumber",
     type: "text",
-    name: "level",
-    placeholder: "Course Level"
+    name: "number",
+    placeholder: "430"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "credit"
+  }, "Credit: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseCredit",
+    type: "text",
+    name: "credit",
+    placeholder: "3"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "days"
+  }, "Days: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseDays",
+    type: "text",
+    name: "days",
+    placeholder: "MWF"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "times"
+  }, "Times: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseTimes",
+    type: "text",
+    name: "times",
+    placeholder: "1:25-2:15"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -95,6 +127,25 @@ var DeleteForm = function DeleteForm(props) {
   }));
 };
 
+var UpgradeForm = function UpgradeForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "upgradeForm",
+    onSubmit: upgradeCourse,
+    name: "upgradeForm",
+    action: "/upgrade",
+    method: "UPGRADE",
+    className: "upgradeForm"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "upgradeSubmit",
+    type: "submit",
+    value: "Upgrade to add more courses"
+  }));
+};
+
 var CourseList = function CourseList(props) {
   if (props.courses.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -112,13 +163,13 @@ var CourseList = function CourseList(props) {
       src: "/assets/img/courseface.png",
       alt: "course face",
       className: "courseFace"
-    }), /*#__PURE__*/React.createElement("h3", {
+    }), /*#__PURE__*/React.createElement("h3", _defineProperty({
       className: "courseName"
-    }, " Name: ", course.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "courseAge"
-    }, " Age: ", course.age, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "courseLevel"
-    }, "Level: ", course.level));
+    }, "className", "courseCredit"), " ", course.name, ", ", course.credit, " credits"), /*#__PURE__*/React.createElement("h3", _defineProperty({
+      className: "courseNumber"
+    }, "className", "courseDepartment"), " ", course.department, " ", course.number, " "), /*#__PURE__*/React.createElement("h3", _defineProperty({
+      className: "courseDays"
+    }, "className", "courseTimes"), course.days, " ", course.times));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "courseList"
@@ -137,6 +188,9 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(CourseForm, {
     csrf: csrf
   }), document.querySelector("#makeCourse"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(UpgradeForm, {
+    csrf: csrf
+  }), document.querySelector("#upgradeCourse"));
   ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
     csrf: csrf
   }), document.querySelector("#deleteCourse"));

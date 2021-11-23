@@ -17,16 +17,37 @@ const CourseSchema = new mongoose.Schema({
     set: setName,
   },
 
-  age: {
+  department: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setName,
+  },
+
+  number: {
     type: Number,
     min: 0,
     required: true,
   },
 
-  level: {
+  credit: {
     type: Number,
     min: 1,
     required: true,
+  },
+
+  days: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setName,
+  },
+
+  times: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setName,
   },
 
   owner: {
@@ -43,19 +64,26 @@ const CourseSchema = new mongoose.Schema({
 
 CourseSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
-  level: doc.level,
+  department: doc.department,
+  number: doc.number,
+  credit: doc.credit,
+  days: doc.days,
+  times: doc.times,
 });
 
 CourseSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
-  return CourseModel.find(search).select('name age level').lean().exec(callback);
+  return CourseModel.find(search).select('name department number credit days times').lean().exec(callback);
 };
 
 CourseSchema.statics.delete = (namef, callback) => {
   CourseModel.deleteOne({ name: namef }).exec(callback);
+};
+
+CourseSchema.statics.upgrade = (namef, callback) => {
+  //CourseModel.deleteOne({ name: namef }).exec(callback);
 };
 
 CourseModel = mongoose.model('Course', CourseSchema);

@@ -13,14 +13,17 @@ const makerPage = (req, res) => {
 };
 
 const makeCourse = (req, res) => {
-  if (!req.body.name || !req.body.age || !req.body.level) {
-    return res.status(400).json({ error: 'RAWR! Name, age, and level are required' });
+  if (!req.body.department || !req.body.number) {
+    return res.status(400).json({ error: 'Department and number are requires' });
   }
 
   const courseData = {
     name: req.body.name,
-    age: req.body.age,
-    level: req.body.level,
+    department: req.body.department,
+    number: req.body.number,
+    credit: req.body.credit,
+    days: req.body.days,
+    times: req.body.times,
     owner: req.session.account._id,
   };
 
@@ -58,14 +61,29 @@ const deleteCourse = (request, response) => {
   const req = request;
   const res = response;
   if (!req.body.name) {
-    return res.status(400).json({ error: 'RAWR! Name is required' });
+    return res.status(400).json({ error: 'Name is required' });
   }
 
   return Course.CourseModel.delete(req.body.name, (err, docs) => {
     console.dir(docs);
     if (docs.deletedCount === 0) {
-      return res.status(400).json({ error: 'RAWR! Course does not exist!' });
+      return res.status(400).json({ error: 'Course does not exist!' });
     }
+    if (err) {
+      return res.status(400).json({ error: 'An Error occured' });
+    }
+    return res.json({ courses: docs });
+  });
+};
+
+const upgradeCourse = (request, response) => {
+  const req = request;
+  const res = response;
+  if (!req.body.name) { //want to change this to be, if button selected, can add more than 4 classes to schedule
+    return res.status(400).json({ error: 'Name is required' });
+  }
+
+  return Course.CourseModel.upgrade(req.body.name, (err, docs) => {
     if (err) {
       return res.status(400).json({ error: 'An Error occured' });
     }
@@ -77,3 +95,4 @@ module.exports.makerPage = makerPage;
 module.exports.getCourses = getCourses;
 module.exports.make = makeCourse;
 module.exports.delete = deleteCourse;
+module.exports.upgrade = upgradeCourse;
