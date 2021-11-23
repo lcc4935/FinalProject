@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const _ = require('underscore');
 
-let DomoModel = {};
+let CourseModel = {};
 
 // mongoose.Types.ObjectID is a function that converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -41,24 +41,24 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+CourseSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
   level: doc.level,
 });
 
-DomoSchema.statics.findByOwner = (ownerId, callback) => {
+CourseSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
-  return DomoModel.find(search).select('name age level').lean().exec(callback);
+  return CourseModel.find(search).select('name age level').lean().exec(callback);
 };
 
-DomoSchema.statics.delete = (namef, callback) => {
-  DomoModel.deleteOne({ name: namef }).exec(callback);
+CourseSchema.statics.delete = (namef, callback) => {
+  CourseModel.deleteOne({ name: namef }).exec(callback);
 };
 
-DomoModel = mongoose.model('Domo', DomoSchema);
+CourseModel = mongoose.model('Course', CourseSchema);
 
-module.exports.DomoModel = DomoModel;
-module.exports.DomoSchema = DomoSchema;
+module.exports.CourseModel = CourseModel;
+module.exports.CourseSchema = CourseSchema;

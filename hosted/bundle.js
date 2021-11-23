@@ -1,78 +1,78 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleCourse = function handleCourse(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#courseMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("domoName").val() == '' || $("#domoAge").val() == '') {
+  if ($("courseName").val() == '' || $("#courseAge").val() == '') {
     handleError("RAWR! All fields are required!");
     return false;
   }
 
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
+  sendAjax('POST', $("#courseForm").attr("action"), $("#courseForm").serialize(), function () {
+    loadCoursesFromServer();
   });
   return false;
 };
 
-var deleteDomo = function deleteDomo(e) {
+var deleteCourse = function deleteCourse(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#courseMessage").animate({
     width: 'hide'
   }, 350);
   sendAjax('DELETE', $("#deleteForm").attr("action"), $("#deleteForm").serialize(), function () {
-    loadDomosFromServer();
+    loadCoursesFromServer();
   });
   return false;
 };
 
-var DomoForm = function DomoForm(props) {
+var CourseForm = function CourseForm(props) {
   console.log(props);
   return /*#__PURE__*/React.createElement("form", {
-    id: "domoForm",
-    onSubmit: handleDomo,
-    name: "domoForm",
+    id: "courseForm",
+    onSubmit: handleCourse,
+    name: "courseForm",
     action: "/maker",
     method: "POST",
-    className: "domoForm"
+    className: "courseForm"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "name"
   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
+    id: "courseName",
     type: "text",
     name: "name",
-    placeholder: "Domo Name"
+    placeholder: "Course Name"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
   }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoAge",
+    id: "courseAge",
     type: "text",
     name: "age",
-    placeholder: "Domo Age"
+    placeholder: "Course Age"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "level"
   }, "Level: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoLevel",
+    id: "courseLevel",
     type: "text",
     name: "level",
-    placeholder: "Domo Level"
+    placeholder: "Course Level"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "makeDomoSubmit",
+    className: "makeCourseSubmit",
     type: "submit",
-    value: "Make Domo"
+    value: "Make Course"
   }));
 };
 
 var DeleteForm = function DeleteForm(props) {
   return /*#__PURE__*/React.createElement("form", {
     id: "deleteForm",
-    onSubmit: deleteDomo,
+    onSubmit: deleteCourse,
     name: "deleteForm",
     action: "/delete",
     method: "DELETE",
@@ -80,10 +80,10 @@ var DeleteForm = function DeleteForm(props) {
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "name"
   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
+    id: "courseName",
     type: "text",
     name: "name",
-    placeholder: "Domo Name"
+    placeholder: "Course Name"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -91,59 +91,59 @@ var DeleteForm = function DeleteForm(props) {
   }), /*#__PURE__*/React.createElement("input", {
     className: "deleteSubmit",
     type: "submit",
-    value: "Delete Domo"
+    value: "Delete Course"
   }));
 };
 
-var DomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var CourseList = function CourseList(props) {
+  if (props.courses.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "domoList"
+      className: "courseList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyDomo"
-    }, "No Domos yet"));
+      className: "emptyCourse"
+    }, "No Courses yet"));
   }
 
-  var domoNodes = props.domos.map(function (domo) {
+  var courseNodes = props.courses.map(function (course) {
     return /*#__PURE__*/React.createElement("div", {
-      key: domo._id,
-      className: "domo"
+      key: course._id,
+      className: "course"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: "/assets/img/courseface.png",
+      alt: "course face",
+      className: "courseFace"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "domoName"
-    }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoAge"
-    }, " Age: ", domo.age, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoLevel"
-    }, "Level: ", domo.level));
+      className: "courseName"
+    }, " Name: ", course.name, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "courseAge"
+    }, " Age: ", course.age, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "courseLevel"
+    }, "Level: ", course.level));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "domoList"
-  }, domoNodes);
+    className: "courseList"
+  }, courseNodes);
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-  sendAjax('GET', '/getDomos', null, function (data) {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
+var loadCoursesFromServer = function loadCoursesFromServer() {
+  sendAjax('GET', '/getCourses', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(CourseList, {
+      courses: data.courses
+    }), document.querySelector("#courses"));
   });
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(CourseForm, {
     csrf: csrf
-  }), document.querySelector("#makeDomo"));
+  }), document.querySelector("#makeCourse"));
   ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
     csrf: csrf
-  }), document.querySelector("#deleteDomo"));
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-    domos: []
-  }), document.querySelector("#domos"));
-  loadDomosFromServer();
+  }), document.querySelector("#deleteCourse"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(CourseList, {
+    courses: []
+  }), document.querySelector("#courses"));
+  loadCoursesFromServer();
 };
 
 var getToken = function getToken() {
@@ -159,13 +159,13 @@ $(document).ready(function () {
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#courseMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({
+  $("#courseMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
