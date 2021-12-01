@@ -50,7 +50,7 @@ const getCourses = (request, response) => {
   return Course.CourseModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occurred'});
+      return res.status(400).json({ error: 'An error occurred' });
     }
 
     return res.json({ courses: docs });
@@ -79,7 +79,8 @@ const deleteCourse = (request, response) => {
 const upgradeCourse = (request, response) => {
   const req = request;
   const res = response;
-  if (!req.body.name) { //want to change this to be, if button selected, can add more than 4 classes to schedule
+  if (!req.body.name) {
+    // want to change this to be, if button selected, can add more than 4 classes to schedule
     return res.status(400).json({ error: 'Name is required' });
   }
 

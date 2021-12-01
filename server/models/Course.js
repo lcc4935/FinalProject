@@ -82,9 +82,9 @@ CourseSchema.statics.delete = (namef, callback) => {
   CourseModel.deleteOne({ name: namef }).exec(callback);
 };
 
-CourseSchema.statics.upgrade = (namef, callback) => {
-  //CourseModel.deleteOne({ name: namef }).exec(callback);
-};
+// CourseSchema.statics.upgrade = (namef, callback) => {
+//   // CourseModel.deleteOne({ name: namef }).exec(callback);
+// };
 
 CourseModel = mongoose.model('Course', CourseSchema);
 
