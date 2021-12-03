@@ -56,6 +56,13 @@ var CourseForm = function CourseForm(props) {
     name: "name",
     placeholder: "Rich Media Web App Dev II"
   }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "credit"
+  }, "Credit: "), /*#__PURE__*/React.createElement("input", {
+    id: "courseCredit",
+    type: "text",
+    name: "credit",
+    placeholder: "3"
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
     htmlFor: "department"
   }, "Department: "), /*#__PURE__*/React.createElement("input", {
     id: "courseDepartment",
@@ -69,14 +76,7 @@ var CourseForm = function CourseForm(props) {
     type: "text",
     name: "number",
     placeholder: "430"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "credit"
-  }, "Credit: "), /*#__PURE__*/React.createElement("input", {
-    id: "courseCredit",
-    type: "text",
-    name: "credit",
-    placeholder: "3"
-  }), /*#__PURE__*/React.createElement("label", {
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
     htmlFor: "days"
   }, "Days: "), /*#__PURE__*/React.createElement("input", {
     id: "courseDays",
@@ -156,18 +156,16 @@ var CourseList = function CourseList(props) {
   }
 
   var courseNodes = props.courses.map(function (course) {
+    var _React$createElement;
+
     return /*#__PURE__*/React.createElement("div", {
       key: course._id,
       className: "course"
-    }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/courseface.png",
-      alt: "course face",
-      className: "courseFace"
-    }), /*#__PURE__*/React.createElement("h3", _defineProperty({
+    }, /*#__PURE__*/React.createElement("h3", {
       className: "courseName"
-    }, "className", "courseCredit"), " ", course.name, ", ", course.credit, " credits"), /*#__PURE__*/React.createElement("h3", _defineProperty({
+    }, " ", course.name), /*#__PURE__*/React.createElement("h3", (_React$createElement = {
       className: "courseNumber"
-    }, "className", "courseDepartment"), " ", course.department, " ", course.number, " "), /*#__PURE__*/React.createElement("h3", _defineProperty({
+    }, _defineProperty(_React$createElement, "className", "courseDepartment"), _defineProperty(_React$createElement, "className", "courseCredit"), _React$createElement), " ", course.department, " ", course.number, ", ", course.credit, " credits"), /*#__PURE__*/React.createElement("h3", _defineProperty({
       className: "courseDays"
     }, "className", "courseTimes"), course.days, " ", course.times));
   });

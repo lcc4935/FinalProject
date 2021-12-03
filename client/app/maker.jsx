@@ -44,20 +44,27 @@ const CourseForm = (props) => {
             <label htmlFor="name">Name: </label>
             <input id="courseName" type="text" name="name" placeholder="Rich Media Web App Dev II"/>
 
+            <label htmlFor="credit">Credit: </label>
+            <input id="courseCredit" type="text" name="credit" placeholder="3" />
+
+            <br />
+            <br />
+
             <label htmlFor="department">Department: </label>
             <input id="courseDepartment" type="text" name="department" placeholder="IGME"/>
 
             <label htmlFor="number">Number: </label>
             <input id="courseNumber" type="text" name="number" placeholder="430"/>
 
-            <label htmlFor="credit">Credit: </label>
-            <input id="courseCredit" type="text" name="credit" placeholder="3" />
+            <br />
+            <br />
 
             <label htmlFor="days">Days: </label>
             <input id="courseDays" type="text" name="days" placeholder="MWF" />
 
             <label htmlFor="times">Times: </label>
             <input id="courseTimes" type="text" name="times" placeholder="1:25-2:15" />
+
 
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="makeCourseSubmit" type="submit" value="Make Course"/>
@@ -109,10 +116,10 @@ const CourseList = function(props) {
     const courseNodes = props.courses.map(function(course) {
         return (
             <div key={course._id} className="course">
-                <img src="/assets/img/courseface.png" alt="course face" className="courseFace"/>
-                <h3 className="courseName" className="courseCredit"> {course.name}, {course.credit} credits</h3>
+                {/* <img src="/assets/img/courseface.png" alt="course face" className="courseFace"/> */}
+                <h3 className="courseName"> {course.name}</h3>
 
-                <h3 className="courseNumber" className="courseDepartment"> {course.department} {course.number} </h3>
+                <h3 className="courseNumber" className="courseDepartment" className="courseCredit"> {course.department} {course.number}, {course.credit} credits</h3>
 
                 <h3 className="courseDays" className="courseTimes">{course.days} {course.times}</h3>
             </div>
