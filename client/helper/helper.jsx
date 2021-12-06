@@ -3,6 +3,7 @@ const handleError = (message) => {
     $("#courseMessage").animate({width:'toggle'},350);
 };
 
+//redirect
 const redirect = (response) => {
     $("#courseMessage").animate({width:'hide'},350);
     window.location = response.redirect;

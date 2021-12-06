@@ -11,8 +11,10 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/maker', mid.requiresLogin, controllers.Course.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Course.make);
-  // app.upgrade('/upgrade', mid.requiresLogin, controllers.Course.upgrade);
+  // app.get('/upgrade', mid.requiresLogin, controllers.Course.upgrade);
   app.delete('/delete', mid.requiresLogin, controllers.Course.delete);
+  app.get('/getUser', mid.requiresLogin, controllers.Account.returnUser);
+  app.post('/reset', mid.requiresSecure, mid.requiresLogout, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

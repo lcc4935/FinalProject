@@ -2,15 +2,17 @@
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/*
-Color Scheme:
+//loadUser - loads in the user
+var loadUser = function loadUser() {
+  sendAjax('GET', '/getUser', null, function (data) {
+    var title = document.querySelector("#title");
+    ReactDOM.render( /*#__PURE__*/React.createElement("h3", {
+      id: "userProfile"
+    }, "Current User: ", data.username), document.querySelector("#userProfile"));
+  });
+}; //handleCourse - handles errors and loads up the courses
 
-27187E
-758BFD
-AEB8FE
-F1F2F6
-FF8600
-*/
+
 var handleCourse = function handleCourse(e) {
   e.preventDefault();
   $("#courseMessage").animate({
@@ -26,7 +28,8 @@ var handleCourse = function handleCourse(e) {
     loadCoursesFromServer();
   });
   return false;
-};
+}; //deleteCourse - removes course block
+
 
 var deleteCourse = function deleteCourse(e) {
   e.preventDefault();
@@ -37,7 +40,8 @@ var deleteCourse = function deleteCourse(e) {
     loadCoursesFromServer();
   });
   return false;
-};
+}; //CourseForm - sets up the html to create a class
+
 
 var CourseForm = function CourseForm(props) {
   console.log(props);
@@ -99,7 +103,8 @@ var CourseForm = function CourseForm(props) {
     type: "submit",
     value: "Make Course"
   }));
-};
+}; //DeleteForm - sets up the html for the deletion process
+
 
 var DeleteForm = function DeleteForm(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -125,26 +130,22 @@ var DeleteForm = function DeleteForm(props) {
     type: "submit",
     value: "Delete Course"
   }));
-};
+}; // const UpgradeForm = (props) => {
+//     return (
+//         <form id="upgradeForm"
+//             onSubmit={upgradeCourse}
+//             name="upgradeForm"
+//             action="/upgrade"
+//             method="UPGRADE"
+//             className="upgradeForm"
+//         >
+//             <input type="hidden" name="_csrf" value={props.csrf} />
+//             <input className="upgradeSubmit" type="submit" value="Upgrade to add more courses" />
+//         </form>
+//     );
+// };
+//courseList - sets up the course blocks
 
-var UpgradeForm = function UpgradeForm(props) {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "upgradeForm",
-    onSubmit: upgradeCourse,
-    name: "upgradeForm",
-    action: "/upgrade",
-    method: "UPGRADE",
-    className: "upgradeForm"
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "_csrf",
-    value: props.csrf
-  }), /*#__PURE__*/React.createElement("input", {
-    className: "upgradeSubmit",
-    type: "submit",
-    value: "Upgrade to add more courses"
-  }));
-};
 
 var CourseList = function CourseList(props) {
   if (props.courses.length === 0) {
@@ -165,14 +166,15 @@ var CourseList = function CourseList(props) {
       className: "courseName"
     }, " ", course.name), /*#__PURE__*/React.createElement("h3", (_React$createElement = {
       className: "courseNumber"
-    }, _defineProperty(_React$createElement, "className", "courseDepartment"), _defineProperty(_React$createElement, "className", "courseCredit"), _React$createElement), " ", course.department, " ", course.number, ", ", course.credit, " credits"), /*#__PURE__*/React.createElement("h3", _defineProperty({
+    }, _defineProperty(_React$createElement, "className", "courseDepartment"), _defineProperty(_React$createElement, "className", "courseCredit"), _React$createElement), " ", course.department, " ", course.number, " ", /*#__PURE__*/React.createElement("br", null), " ", course.credit, " credits"), /*#__PURE__*/React.createElement("h3", _defineProperty({
       className: "courseDays"
     }, "className", "courseTimes"), course.days, " ", course.times));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "courseList"
   }, courseNodes);
-};
+}; //loadCoursesFromServer - has the course blocks appear
+
 
 var loadCoursesFromServer = function loadCoursesFromServer() {
   sendAjax('GET', '/getCourses', null, function (data) {
@@ -180,15 +182,16 @@ var loadCoursesFromServer = function loadCoursesFromServer() {
       courses: data.courses
     }), document.querySelector("#courses"));
   });
-};
+}; //setup - makes everything appear and work
+
 
 var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(CourseForm, {
     csrf: csrf
-  }), document.querySelector("#makeCourse"));
-  ReactDOM.render( /*#__PURE__*/React.createElement(UpgradeForm, {
-    csrf: csrf
-  }), document.querySelector("#upgradeCourse"));
+  }), document.querySelector("#makeCourse")); // ReactDOM.render(
+  //     <UpgradeForm csrf={csrf} />, document.querySelector("#upgradeCourse")
+  // );
+
   ReactDOM.render( /*#__PURE__*/React.createElement(DeleteForm, {
     csrf: csrf
   }), document.querySelector("#deleteCourse"));
@@ -196,6 +199,7 @@ var setup = function setup(csrf) {
     courses: []
   }), document.querySelector("#courses"));
   loadCoursesFromServer();
+  loadUser();
 };
 
 var getToken = function getToken() {
@@ -214,7 +218,8 @@ var handleError = function handleError(message) {
   $("#courseMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //redirect
+
 
 var redirect = function redirect(response) {
   $("#courseMessage").animate({

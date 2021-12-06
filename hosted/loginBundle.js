@@ -1,5 +1,6 @@
 "use strict";
 
+//handleLogin - user login functionality
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
   $("#domoMessage").animate({
@@ -14,7 +15,8 @@ var handleLogin = function handleLogin(e) {
   console.log($("input[name=_csrf").val());
   sendAjax('Post', $("#loginForm").attr("action"), $("#loginForm").serialize(), redirect);
   return false;
-};
+}; //handleDignup - user signup functionality
+
 
 var handleSignup = function handleSignup(e) {
   e.preventDefault();
@@ -34,7 +36,26 @@ var handleSignup = function handleSignup(e) {
 
   sendAjax('POST', $("#signupForm").attr("action"), $("#signupForm").serialize(), redirect);
   return false;
-};
+}; //handleReset - user password reset functionality
+
+
+var handleReset = function handleReset(e) {
+  e.preventDefault();
+
+  if ($("#user").val() == '' || $("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
+    handleError("Missing Fields");
+    return false;
+  }
+
+  if ($("#pass").val() !== $("#pass2").val()) {
+    handleError("Passwords do not match");
+    return false;
+  }
+
+  sendAjax('POST', $("#passForm").attr("action"), $("#passForm").serialize(), redirect);
+  return false;
+}; //loginWindow - html for the login page
+
 
 var LoginWindow = function LoginWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -67,7 +88,8 @@ var LoginWindow = function LoginWindow(props) {
     type: "submit",
     value: "Sign in"
   }));
-};
+}; //SignupWindow - html for the signup page
+
 
 var SignupWindow = function SignupWindow(props) {
   return /*#__PURE__*/React.createElement("form", {
@@ -107,23 +129,82 @@ var SignupWindow = function SignupWindow(props) {
     type: "submit",
     value: "Sign Up"
   }));
-};
+}; //ResetWindow - html for the password rest page
+
+
+var ResetWindow = function ResetWindow(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "passForm",
+    name: "passForm",
+    onSubmit: handleReset,
+    action: "/reset",
+    method: "POST",
+    className: "mainForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "username"
+  }, "Username: "), /*#__PURE__*/React.createElement("input", {
+    id: "user",
+    type: "text",
+    name: "username",
+    placeholder: "username"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "oldPass"
+  }, "Old Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "oldPass",
+    type: "password",
+    name: "oldPass",
+    placeholder: "old password"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "pass"
+  }, "New Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "pass",
+    type: "password",
+    name: "pass",
+    placeholder: "password"
+  }), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "pass2"
+  }, "Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "pass2",
+    type: "password",
+    name: "pass2",
+    placeholder: "retype password"
+  }), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "passSubmit",
+    type: "submit",
+    value: "Change Password"
+  }));
+}; //createLoginWindow - loads up the createLoginWindow for login
+
 
 var createLoginWindow = function createLoginWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(LoginWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; //createSignupWindow - loads up the createSignupWindow for signup
+
 
 var createSignupWindow = function createSignupWindow(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(SignupWindow, {
     csrf: csrf
   }), document.querySelector("#content"));
-};
+}; //createResetWindow - loads up the createResetWindow for password reset
+
+
+var createResetWindow = function createResetWindow(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(ResetWindow, {
+    csrf: csrf
+  }), document.querySelector("#content"));
+}; //setup - makes everythign show up and work
+
 
 var setup = function setup(csrf) {
   var loginButton = document.querySelector("#loginButton");
   var signupButton = document.querySelector("#signupButton");
+  var resetButton = document.querySelector("#resetButton");
   signupButton.addEventListener("click", function (e) {
     e.preventDefault();
     createSignupWindow(csrf);
@@ -132,6 +213,11 @@ var setup = function setup(csrf) {
   loginButton.addEventListener("click", function (e) {
     e.preventDefault();
     createLoginWindow(csrf);
+    return false;
+  });
+  resetButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    createResetWindow(csrf);
     return false;
   });
   createLoginWindow(csrf); //default view
@@ -153,7 +239,8 @@ var handleError = function handleError(message) {
   $("#courseMessage").animate({
     width: 'toggle'
   }, 350);
-};
+}; //redirect
+
 
 var redirect = function redirect(response) {
   $("#courseMessage").animate({

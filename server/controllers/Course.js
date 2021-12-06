@@ -2,6 +2,7 @@ const models = require('../models');
 
 const { Course } = models;
 
+//makerPage
 const makerPage = (req, res) => {
   Course.CourseModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
@@ -12,6 +13,7 @@ const makerPage = (req, res) => {
   });
 };
 
+//makeCourse - creates course class block
 const makeCourse = (req, res) => {
   if (!req.body.department || !req.body.number) {
     return res.status(400).json({ error: 'Department and number are requires' });
@@ -43,6 +45,7 @@ const makeCourse = (req, res) => {
   return coursePromise;
 };
 
+//getCourse - gets the course
 const getCourses = (request, response) => {
   const req = request;
   const res = response;
@@ -57,6 +60,7 @@ const getCourses = (request, response) => {
   });
 };
 
+//deleteCourse - removes a course block
 const deleteCourse = (request, response) => {
   const req = request;
   const res = response;
@@ -76,24 +80,21 @@ const deleteCourse = (request, response) => {
   });
 };
 
-const upgradeCourse = (request, response) => {
-  const req = request;
-  const res = response;
-  if (!req.body.name) {
-    // want to change this to be, if button selected, can add more than 4 classes to schedule
-    return res.status(400).json({ error: 'Name is required' });
-  }
+// // want to change this to be, if button selected, can add more than 4 classes to schedule
+// const upgradeCourse = (request, response) => {
+//   const req = request;
+//   const res = response;
 
-  return Course.CourseModel.upgrade(req.body.name, (err, docs) => {
-    if (err) {
-      return res.status(400).json({ error: 'An Error occured' });
-    }
-    return res.json({ courses: docs });
-  });
-};
+//   return Course.CourseModel.upgrade((err, docs) => {
+//     if (err) {
+//       return res.status(400).json({ error: 'An Error occured' });
+//     }
+//     return res.json({ courses: docs });
+//   });
+// };
 
 module.exports.makerPage = makerPage;
 module.exports.getCourses = getCourses;
 module.exports.make = makeCourse;
 module.exports.delete = deleteCourse;
-module.exports.upgrade = upgradeCourse;
+// module.exports.upgrade = upgradeCourse;

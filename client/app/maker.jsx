@@ -1,13 +1,14 @@
-/*
-Color Scheme:
+//loadUser - loads in the user
+const loadUser = () => {
+    sendAjax('GET', '/getUser', null, (data) => {
+        let title = document.querySelector("#title");
+        ReactDOM.render(
+            <h3 id="userProfile">Current User: {data.username}</h3>, document.querySelector("#userProfile")
+        );
+    });
+};
 
-27187E
-758BFD
-AEB8FE
-F1F2F6
-FF8600
-*/
-
+//handleCourse - handles errors and loads up the courses
 const handleCourse = (e) => {
     e.preventDefault();
 
@@ -25,6 +26,7 @@ const handleCourse = (e) => {
     return false;
 };
 
+//deleteCourse - removes course block
 const deleteCourse = (e) => {
     e.preventDefault();
 
@@ -37,6 +39,7 @@ const deleteCourse = (e) => {
     return false;
 };
 
+//CourseForm - sets up the html to create a class
 const CourseForm = (props) => {
     console.log(props);
     return (
@@ -72,6 +75,7 @@ const CourseForm = (props) => {
     );
 };
 
+//DeleteForm - sets up the html for the deletion process
 const DeleteForm = (props) => {
     return (
         <form id="deleteForm"
@@ -89,21 +93,22 @@ const DeleteForm = (props) => {
     );
 };
 
-const UpgradeForm = (props) => {
-    return (
-        <form id="upgradeForm"
-            onSubmit={upgradeCourse}
-            name="upgradeForm"
-            action="/upgrade"
-            method="UPGRADE"
-            className="upgradeForm"
-        >
-            <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="upgradeSubmit" type="submit" value="Upgrade to add more courses" />
-        </form>
-    );
-};
+// const UpgradeForm = (props) => {
+//     return (
+//         <form id="upgradeForm"
+//             onSubmit={upgradeCourse}
+//             name="upgradeForm"
+//             action="/upgrade"
+//             method="UPGRADE"
+//             className="upgradeForm"
+//         >
+//             <input type="hidden" name="_csrf" value={props.csrf} />
+//             <input className="upgradeSubmit" type="submit" value="Upgrade to add more courses" />
+//         </form>
+//     );
+// };
 
+//courseList - sets up the course blocks
 const CourseList = function(props) {
     if(props.courses.length === 0) {
         return (
@@ -119,7 +124,7 @@ const CourseList = function(props) {
                 {/* <img src="/assets/img/courseface.png" alt="course face" className="courseFace"/> */}
                 <h3 className="courseName"> {course.name}</h3>
 
-                <h3 className="courseNumber" className="courseDepartment" className="courseCredit"> {course.department} {course.number}, {course.credit} credits</h3>
+                <h3 className="courseNumber" className="courseDepartment" className="courseCredit"> {course.department} {course.number} <br /> {course.credit} credits</h3>
 
                 <h3 className="courseDays" className="courseTimes">{course.days} {course.times}</h3>
             </div>
@@ -133,6 +138,7 @@ const CourseList = function(props) {
     );
 };
 
+//loadCoursesFromServer - has the course blocks appear
 const loadCoursesFromServer = () => {
     sendAjax('GET', '/getCourses', null, (data) => {
         ReactDOM.render(
@@ -141,14 +147,15 @@ const loadCoursesFromServer = () => {
     });
 };
 
+//setup - makes everything appear and work
 const setup = function(csrf) {
     ReactDOM.render(
         <CourseForm csrf={csrf} />, document.querySelector("#makeCourse")
     );
 
-    ReactDOM.render(
-        <UpgradeForm csrf={csrf} />, document.querySelector("#upgradeCourse")
-    );
+    // ReactDOM.render(
+    //     <UpgradeForm csrf={csrf} />, document.querySelector("#upgradeCourse")
+    // );
 
     ReactDOM.render(
         <DeleteForm csrf={csrf} />, document.querySelector("#deleteCourse")
@@ -159,6 +166,7 @@ const setup = function(csrf) {
     );
 
     loadCoursesFromServer();
+    loadUser();
 };
 
 const getToken = () => {

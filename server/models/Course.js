@@ -9,6 +9,7 @@ let CourseModel = {};
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
+//courseSchema - sets up for course creation
 const CourseSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -62,6 +63,7 @@ const CourseSchema = new mongoose.Schema({
   },
 });
 
+//stats
 CourseSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   department: doc.department,
@@ -71,6 +73,7 @@ CourseSchema.statics.toAPI = (doc) => ({
   times: doc.times,
 });
 
+//retrieve
 CourseSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
@@ -78,12 +81,19 @@ CourseSchema.statics.findByOwner = (ownerId, callback) => {
   return CourseModel.find(search).select('name department number credit days times').lean().exec(callback);
 };
 
+//delete
 CourseSchema.statics.delete = (namef, callback) => {
   CourseModel.deleteOne({ name: namef }).exec(callback);
 };
 
-// CourseSchema.statics.upgrade = (namef, callback) => {
-//   // CourseModel.deleteOne({ name: namef }).exec(callback);
+// CourseSchema.statics.upgrade = (ownerId, callback) => {
+//   const course = {
+//     owner: convertId(ownerId),
+//   };
+//   const num = CourseModel.find(course).select('name').lean().exec(callback);
+//   if (num >= 4) {
+//     //they can allowe more courses
+//   }
 // };
 
 CourseModel = mongoose.model('Course', CourseSchema);
